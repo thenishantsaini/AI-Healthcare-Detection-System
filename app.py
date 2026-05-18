@@ -303,65 +303,146 @@ if selected_disease == "Parkinson's Disease":
 
 
 # =====================================================
-# Alzheimer's Module
+# Alzheimer's Module 
 # =====================================================
 
 elif selected_disease == "Alzheimer's Disease":
 
     st.header("Alzheimer's Disease Detection")
+    st.info("Please fill in all 32 clinical and behavioral parameters for accurate Alzheimer's prediction.")
 
-    st.info(
-        "This module predicts Alzheimer's disease using patient health and behavioral parameters."
-    )
+    
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "📊 Demographics & Lifestyle", 
+        "🏥 Medical History", 
+        "🧪 Clinical Measurements", 
+        "🧠 Cognitive & Behavioral"
+    ])
+
+    with tab1:
+        st.subheader("Demographic & Lifestyle Factors")
+        col1, col2 = st.columns(2)
+        with col1:
+            age = st.slider("Age", 40, 100, 65)
+            gender = st.selectbox("Gender", [0, 1], format_func=lambda x: "Male" if x==1 else "Female")
+            ethnicity = st.selectbox("Ethnicity", [0, 1, 2, 3], format_func=lambda x: f"Type {x}")
+            education = st.selectbox("Education Level", [0, 1, 2, 3], format_func=lambda x: f"Level {x}")
+            bmi = st.number_input("BMI", min_value=10.0, max_value=50.0, value=24.5, step=0.1)
+        with col2:
+            smoking = st.selectbox("Smoking Status", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            alcohol = st.selectbox("Alcohol Consumption", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            physical_activity = st.number_input("Physical Activity (Hours/Week)", 0.0, 10.0, 3.2)
+            diet_quality = st.number_input("Diet Quality Score (0-10)", 0.0, 10.0, 7.5)
+            sleep_quality = st.number_input("Sleep Quality Score (0-10)", 0.0, 10.0, 6.8)
+
+    with tab2:
+        st.subheader("Medical History & Conditions")
+        col1, col2 = st.columns(2)
+        with col1:
+            family_history = st.selectbox("Family History of Alzheimer's", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            cardio_disease = st.selectbox("Cardiovascular Disease", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            diabetes = st.selectbox("Diabetes", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+        with col2:
+            depression = st.selectbox("Depression", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            head_injury = st.selectbox("Head Injury History", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            hypertension = st.selectbox("Hypertension", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+
+    with tab3:
+        st.subheader("Clinical & Blood Measurements")
+        col1, col2 = st.columns(2)
+        with col1:
+            systolic_bp = st.number_input("Systolic BP (mmHg)", 80, 200, 130)
+            diastolic_bp = st.number_input("Diastolic BP (mmHg)", 50, 120, 85)
+            chol_total = st.number_input("Total Cholesterol (mg/dL)", 100, 400, 200)
+        with col2:
+            chol_ldl = st.number_input("LDL Cholesterol (mg/dL)", 50, 250, 120)
+            chol_hdl = st.number_input("HDL Cholesterol (mg/dL)", 20, 100, 55)
+            chol_trig = st.number_input("Triglycerides (mg/dL)", 50, 500, 180)
+
+    with tab4:
+        st.subheader("Cognitive, Functional & Behavioral Assessment")
+        col1, col2 = st.columns(2)
+        with col1:
+            mmse = st.number_input("MMSE Score (0-30)", 0, 30, 22)
+            functional_assess = st.number_input("Functional Assessment Score (0-10)", 0.0, 10.0, 6.5)
+            memory = st.selectbox("Memory Complaints", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            behavioral = st.selectbox("Behavioral Problems", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            adl = st.number_input("ADL (Activities of Daily Living) Score (0-10)", 0.0, 10.0, 5.5)
+        with col2:
+            confusion = st.selectbox("Confusion", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            disorientation = st.selectbox("Disorientation", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            personality = st.selectbox("Personality Changes", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            difficulty_tasks = st.selectbox("Difficulty Completing Tasks", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
+            forgetfulness = st.selectbox("Forgetfulness", [0, 1], format_func=lambda x: "Yes" if x==1 else "No")
 
 
-    age = st.slider("Age", 40, 100, 65)
-
-    memory = st.selectbox(
-        "Memory Complaints",
-        [0, 1]
-    )
-
-    confusion = st.selectbox(
-        "Confusion",
-        [0, 1]
-    )
-
-    forgetfulness = st.selectbox(
-        "Forgetfulness",
-        [0, 1]
-    )
-
-
+    # Prediction Button
     if st.button("Analyze Alzheimer's Risk"):
 
-        with st.spinner("Analyzing Patient Health Data..."):
+        with st.spinner("Analyzing Complete Patient Data..."):
+            
+            
+            input_data_alz = [
+                age, gender, ethnicity, education, bmi, smoking, alcohol, 
+                physical_activity, diet_quality, sleep_quality, family_history, 
+                cardio_disease, diabetes, depression, head_injury, hypertension, 
+                systolic_bp, diastolic_bp, chol_total, chol_ldl, chol_hdl, 
+                chol_trig, mmse, functional_assess, memory, behavioral, adl, 
+                confusion, disorientation, personality, difficulty_tasks, forgetfulness
+            ]
 
-            st.warning(
-                "⚠️ Full Alzheimer's prediction model integration can be added using the saved Alzheimer model."
-            )
+            # Features Name List matching the notebook
+            feature_names = [
+                'Age', 'Gender', 'Ethnicity', 'EducationLevel', 'BMI', 'Smoking', 
+                'AlcoholConsumption', 'PhysicalActivity', 'DietQuality', 'SleepQuality', 
+                'FamilyHistoryAlzheimers', 'CardiovascularDisease', 'Diabetes', 'Depression', 
+                'HeadInjury', 'Hypertension', 'SystolicBP', 'DiastolicBP', 'CholesterolTotal', 
+                'CholesterolLDL', 'CholesterolHDL', 'CholesterolTriglycerides', 'MMSE', 
+                'FunctionalAssessment', 'MemoryComplaints', 'BehavioralProblems', 'ADL', 
+                'Confusion', 'Disorientation', 'PersonalityChanges', 'DifficultyCompletingTasks', 
+                'Forgetfulness'
+            ]
 
+            # DataFrame Creation
+            input_data_alz_df = pd.DataFrame([input_data_alz], columns=feature_names)
 
-            # Dummy visualization chart
+            # Actual Model Prediction
+            prediction = alzheimer_model.predict(input_data_alz_df)
+            
+            # Probability Calculation for Chart
+            try:
+                prediction_proba = alzheimer_model.predict_proba(input_data_alz_df)[0]
+                healthy_prob = prediction_proba[0] * 100
+                disease_prob = prediction_proba[1] * 100
+            except:
+                if prediction[0] == 1:
+                    healthy_prob, disease_prob = 10, 90
+                else:
+                    healthy_prob, disease_prob = 90, 10
 
+            st.write("---")
+            
+            # Output Result Display
+            if prediction[0] == 0:
+                st.success("✅ The Person is Healthy (Low risk of Alzheimer's)")
+            else:
+                st.error("⚠️ The Person has Alzheimer's Disease")
+
+            # Real Graph Analysis
+            st.subheader("Alzheimer's Risk Analysis Graph")
             labels = ['Healthy Probability', 'Disease Probability']
-
-            values = [35, 65]
-
-            # Creating smaller pie chart
+            values = [healthy_prob, disease_prob]
 
             fig, ax = plt.subplots(figsize=(4,4))
-
             ax.pie(
                 values,
                 labels=labels,
-                autopct='%1.1f%%'
+                autopct='%1.1f%%',
+                colors=['#2ecc71', '#e74c3c'],
+                startangle=90
             )
-
             ax.set_title("Alzheimer's Risk Analysis")
-
             st.pyplot(fig)
-
 
 # =====================================================
 # About Project
