@@ -266,61 +266,61 @@ if selected_disease == "Parkinson's Disease":
 
         if prediction[0] == 0:
 
-                result_text = "Healthy"
+            result_text = "Healthy"
 
-                st.success("✅ The Person is Healthy")
+            st.success("✅ The Person is Healthy")
 
         else:
 
-                result_text = "Parkinson's Disease Detected"
+            result_text = "Parkinson's Disease Detected"
 
-                st.error(
+            st.error(
                 "⚠️ The Person has Parkinson's Disease"
             )
 
 
-            # Generating PDF report
+        # Generating PDF report
 
-            pdf_file = generate_pdf_report(
-                "Parkinson's Disease",
-                result_text
+        pdf_file = generate_pdf_report(
+            "Parkinson's Disease",
+            result_text
+        )
+
+
+        # Download button
+
+        with open(pdf_file, "rb") as file:
+
+            st.download_button(
+                label="Download Medical Report",
+                data=file,
+                file_name=pdf_file,
+                mime="application/pdf"
             )
 
 
-            # Download button
+        # Accuracy Chart
 
-            with open(pdf_file, "rb") as file:
+        chart_data = pd.DataFrame({
+            'Accuracy': [1.0, 0.846]
+        }, index=['Training', 'Testing'])
 
-                st.download_button(
-                    label="Download Medical Report",
-                    data=file,
-                    file_name=pdf_file,
-                    mime="application/pdf"
-                )
+        st.subheader("Model Accuracy Analysis")
 
+        # Creating smaller accuracy chart
 
-            # Accuracy Chart
+        fig, ax = plt.subplots(figsize=(4,3))
 
-            chart_data = pd.DataFrame({
-                'Accuracy': [1.0, 0.846]
-            }, index=['Training', 'Testing'])
+        ax.bar(
+            ['Training', 'Testing'],
+            [1.0, 0.846]
+        )
 
-            st.subheader("Model Accuracy Analysis")
+        ax.set_ylabel("Accuracy")
 
-            # Creating smaller accuracy chart
+        ax.set_title("Model Accuracy")
 
-            fig, ax = plt.subplots(figsize=(4,3))
-
-            ax.bar(
-                ['Training', 'Testing'],
-                [1.0, 0.846]
-            )
-
-            ax.set_ylabel("Accuracy")
-
-            ax.set_title("Model Accuracy")
-
-            st.pyplot(fig)
+        st.pyplot(fig)
 
 
 # =====================================================
