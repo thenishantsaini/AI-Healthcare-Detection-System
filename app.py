@@ -86,9 +86,7 @@ st.set_page_config(
 # =====================================================
 
 parkinson_model = joblib.load('parkinsons_model.pkl')
-
-# If you save Alzheimer model later:
-# alzheimer_model = joblib.load('alzheimers_model.pkl')
+alzheimer_model = joblib.load('alzheimers_model.pkl')
 
 
 # =====================================================
