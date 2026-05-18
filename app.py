@@ -264,13 +264,11 @@ if selected_disease == "Parkinson's Disease":
 
             ])
 
-
             if prediction[0] == 0:
 
                 result_text = "Healthy"
 
                 st.success("✅ The Person is Healthy")
-
 
             else:
 
